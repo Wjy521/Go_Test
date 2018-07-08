@@ -35,14 +35,16 @@ func readValues(infile string) (values []int, err error) {
 			if err1 != io.EOF {
 				err = err1
 			}
+			break
 		}
 
-		if isRrefix {
+		if isPrefix {
 			fmt.Println("A too long line, seems unexpected.")
 			return
 		}
 
 		str := string(line)
+		fmt.Println("this is :",str)
 
 		value, err1 := strconv.Atoi(str)
 
@@ -79,7 +81,7 @@ func main() {
 		fmt.Println("The infile=",*infile,"The outfile=",*outfile,"The algorithm=",*algorithm)
 	}
 
-	values, err := readValue(*infile)
+	values, err := readValues(*infile)
 	if err == nil {
 		t1 := time.Now()
 		switch *algorithm {

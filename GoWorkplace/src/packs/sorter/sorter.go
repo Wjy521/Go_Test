@@ -6,9 +6,13 @@ import "bufio"
 import "io"
 import "os"
 import "strconv"
+import "time"
 
-var infile *string = flag.String("i","infile","File contains value for sorting")
-var outfile *string = flag.String("o","outfile","File to receive sorted values")
+import "packs/algorithms/bubblesort"
+import "packs/algorithms/qsort"
+
+var infile *string = flag.String("i","unsorted.dat","File contains value for sorting")
+var outfile *string = flag.String("o","sorted.dat","File to receive sorted values")
 var algorithm *string = flag.String("a","qsort","Sort algorithm")
 
 
@@ -74,9 +78,21 @@ func main() {
 	if infile != nil {
 		fmt.Println("The infile=",*infile,"The outfile=",*outfile,"The algorithm=",*algorithm)
 	}
+
 	values, err := readValue(*infile)
 	if err == nil {
-		fmt.Println("Read value:",values)
+		t1 := time.Now()
+		switch *algorithm {
+			case "qsort":
+				qsort.QuickSort(values)
+			case "bubblesort" :
+				bubblesort.BubbleSort(values)
+			default:
+				fmt.Println("Sorting algorithm",*algorithm,"is either unknowed or unsupported.")
+		}
+		t2 := time.Now()
+		fmt.Println("The sorting process cost",t2.Sub(t1),"to complete.")
+		writeValues(values, *outfile)
 	}else {
 		fmt.Println(err)
 	}

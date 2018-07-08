@@ -1,7 +1,6 @@
 package bubblesort
 
-func BubbleSort(values []int)
-{
+func BubbleSort(values []int) {
 	flag := true
 
 	for i := 0; i <len(vaules)-1; i++ {
